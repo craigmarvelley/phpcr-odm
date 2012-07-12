@@ -5,11 +5,11 @@ namespace Doctrine\Tests\ODM\PHPCR\Mapping\Model;
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCRODM;
 
 /**
- * A class that is versionable via the simple strategy
+ * A class that is referenceable
  * 
- * @PHPCRODM\Document(versionable="simple")
+ * @PHPCRODM\Document(referenceable=true)
  */
-class VersionableMappingObject
+class ReferenceableMappingObject
 {
     /** @PHPCRODM\Id */
     public $id;

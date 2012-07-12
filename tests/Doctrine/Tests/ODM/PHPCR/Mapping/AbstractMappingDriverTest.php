@@ -487,4 +487,20 @@ abstract class AbstractMappingDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Doctrine\Tests\ODM\PHPCR\Mapping\Model\ReferenceOneMappingObject', $referenceOneHard['sourceDocument']);
         $this->assertEquals(ClassMetadata::MANY_TO_ONE, $referenceOneHard['type']);
     }
+    
+    public function testLoadReferenceableMapping()
+    {
+        $className = 'Doctrine\Tests\ODM\PHPCR\Mapping\Model\ReferenceableMappingObject';
+        
+        return $this->loadMetadataForClassname($className);
+    }
+    
+    /**
+     * @depends testLoadReferenceableMapping
+     * @param ClassMetadata $class
+     */
+    public function testReferenceableMapping($class)
+    {
+        $this->assertTrue($class->referenceable);
+    }
 }
