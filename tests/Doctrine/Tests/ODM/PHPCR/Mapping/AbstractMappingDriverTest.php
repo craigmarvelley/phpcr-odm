@@ -439,6 +439,7 @@ abstract class AbstractMappingDriverTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(2, count($class->associationsMappings));
         $this->assertTrue(isset($class->associationsMappings['referenceManyWeak']));
+        $this->assertTrue(isset($class->associationsMappings['referenceManyHard']));
         
         $referenceManyWeak = $class->associationsMappings['referenceManyWeak'];
         $this->assertEquals('referenceManyWeak', $referenceManyWeak['fieldName']);
@@ -453,7 +454,37 @@ abstract class AbstractMappingDriverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hard', $referenceManyHard['strategy']);
         $this->assertEquals('Doctrine\Tests\ODM\PHPCR\Mapping\Model\ReferenceManyMappingObject', $referenceManyHard['sourceDocument']);
         $this->assertEquals(ClassMetadata::MANY_TO_MANY, $referenceManyHard['type']);
+    }
+    
+    public function testLoadReferenceOneMapping()
+    {
+        $className = 'Doctrine\Tests\ODM\PHPCR\Mapping\Model\ReferenceOneMappingObject';
         
+        return $this->loadMetadataForClassname($className);
+    }
+
+    /**
+     * @depends testLoadReferenceOneMapping
+     * @param ClassMetadata $class
+     */
+    public function testReferenceOneMapping($class)
+    {
+        $this->assertEquals(2, count($class->associationsMappings));
+        $this->assertTrue(isset($class->associationsMappings['referenceOneWeak']));
+        $this->assertTrue(isset($class->associationsMappings['referenceOneHard']));
         
+        $referenceOneWeak = $class->associationsMappings['referenceOneWeak'];
+        $this->assertEquals('referenceOneWeak', $referenceOneWeak['fieldName']);
+        $this->assertEquals('Doctrine\Tests\ODM\PHPCR\Mapping\Model\myDocument', $referenceOneWeak['targetDocument']);
+        $this->assertEquals('weak', $referenceOneWeak['strategy']);
+        $this->assertEquals('Doctrine\Tests\ODM\PHPCR\Mapping\Model\ReferenceOneMappingObject', $referenceOneWeak['sourceDocument']);
+        $this->assertEquals(ClassMetadata::MANY_TO_ONE, $referenceOneWeak['type']);
+        
+        $referenceOneHard = $class->associationsMappings['referenceOneHard'];
+        $this->assertEquals('referenceOneHard', $referenceOneHard['fieldName']);
+        $this->assertEquals('Doctrine\Tests\ODM\PHPCR\Mapping\Model\myDocument', $referenceOneHard['targetDocument']);
+        $this->assertEquals('hard', $referenceOneHard['strategy']);
+        $this->assertEquals('Doctrine\Tests\ODM\PHPCR\Mapping\Model\ReferenceOneMappingObject', $referenceOneHard['sourceDocument']);
+        $this->assertEquals(ClassMetadata::MANY_TO_ONE, $referenceOneHard['type']);
     }
 }
